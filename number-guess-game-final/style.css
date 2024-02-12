@@ -1,0 +1,39 @@
+.body{
+  font-family: 'Cute Font', sans-serif;
+  font-size: 20vh;
+}
+
+.container{
+  background: #dbdbdb;
+  height:100%;
+  text-align: center;
+  padding : 10vh;
+  border-radius: 10px;
+}
+
+.result-display{
+  margin-left:auto;
+  margin-right:auto;
+  background: #000000;
+  color:white;
+  font-family: 'Cute Font', sans-serif;
+  width : 50vh;
+  text-align:center;
+  padding : 5px;
+  border-radius : 5px;
+}
+button{
+  font-family: 'Lobster', sans-serif;
+  padding : 5px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(180deg, rgb(140, 140, 140) 0%, rgb(255, 255, 255) 50%, rgba(140, 140, 140) 100%);
+  color : rgb(0, 0, 0);
+  font-size: large;
+}
+button:hover{
+  background: linear-gradient(180deg, rgb(0, 49, 155) 0%, rgb(99, 147, 235) 50%, rgba(0, 49, 155) 100%);
+  color : white;
+  font-size: large;
+  cursor:pointer;
+}
