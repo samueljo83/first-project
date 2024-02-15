@@ -1,73 +1,74 @@
-let computerNumber = 0;
-let userInput = document.querySelector("#user-input");
-let playButton = document.querySelector("#play-button");
-let resultDisplay = document.querySelector(".result-display");
-let resetButton = document.querySelector("#reset-button");
-let chanceCount = document.querySelector(".chance-count");
-let gameOver = false;
-let chanceRemainder = 5;
-let userValueList = []; // 유저가 입력한 숫자들 리스트
+document.addEventListener("DOMContentLoaded", function () {
+  let taskInput = document.getElementById("input-box");
+  let addButton = document.getElementById("add-button");
+  let taskBoard = document.getElementById("task-board");
+  let tabs = document.querySelectorAll(".task-tabs div");
+  let taskList = [];
 
-playButton = addEventListener("click", play);
-resetButton.addEventListener("click", reset);
-chanceCount.innerHTML = `남은 기회:${chanceRemainder}`;
-userInput.addEventListener("focus", focusInput);
+  addButton.addEventListener("click", addTask);
+  taskBoard.addEventListener("click", handleButtonClick);
 
-// random 번호 생성 함수
-function randomNumber() {
-  computerNumber = Math.floor(Math.random() * 100) + 1;
-  console.log("정답", computerNumber);
-}
-
-//play 함수
-function play() {
-  let userValue = userInput.value;
-  if (userValue < 1 || userValue > 100) {
-    resultDisplay.textContent = "1부터 100 사이의 숫자를 입력 해주세요";
-
-    return;
+  for (let i = 1; i < tabs.length; i++) {
+    tabs[i].addEventListener("click", function (event) {
+      filter(event);
+    });
   }
 
-  if (userValueList.includes(userValue)) {
-    resultDisplay.textContent =
-      "이미 입력한 숫자입니다. 다른 숫자를 입력해주세요";
-
-    return;
+  function addTask() {
+    let taskText = taskInput.value.trim();
+    if (taskText !== "") {
+      taskList.push({ text: taskText, checked: false });
+      render();
+      taskInput.value = ""; // Clear input field
+    } else {
+      alert("할 일을 타이핑 해주세요");
+    }
   }
 
-  chanceRemainder--;
-  chanceCount.innerHTML = `남은 기회:${chanceRemainder}`;
-  userValueList.push(userValue);
-  if (userValue < computerNumber) {
-    resultDisplay.textContent = "좀 더 쓰세요";
-  } else if (userValue > computerNumber) {
-    resultDisplay.textContent = "좀 줄이세요";
-  } else {
-    resultDisplay.textContent = "어떻게 알았지?";
+  function handleButtonClick(event) {
+    if (event.target.tagName === "BUTTON") {
+      let action = event.target.textContent.toLowerCase();
+      let taskIndex = event.target.parentNode.parentNode.dataset.index;
+      if (action === "check") {
+        // Toggle the checked property
+        taskList[taskIndex].checked = !taskList[taskIndex].checked;
+        render();
+      } else if (action === "delete") {
+        // Implement delete functionality
+        taskList.splice(taskIndex, 1);
+        render();
+      }
+    }
   }
-  if (chanceRemainder == 0) {
-    gameOver = true;
+
+  function filter(event) {
+    let mode = event.target.id;
+    if (mode === "all") {
+      console.log(taskList);
+      render(taskList); // Render all tasks
+    } else if (mode === "onGoing") {
+      let filterList = taskList.filter((task) => !task.checked); // Filter unchecked tasks
+      render(filterList);
+    } else if (mode === "completed") {
+      let filterList = taskList.filter((task) => task.checked); // Filter checked tasks
+      render(filterList);
+    }
   }
 
-  if (gameOver == true) {
-    playButton.disabled = true;
+  function render(tasks = taskList) {
+    let resultHTML = "";
+    tasks.forEach((task, index) => {
+      let taskClass = task.checked ? "task checked" : "task";
+      let taskText = task.checked ? `<s>${task.text}</s>` : task.text;
+      resultHTML += `
+        <div class="${taskClass}" data-index="${index}">
+          <div>${taskText}</div>
+          <div>
+            <button>Check</button>
+            <button>Delete</button>
+          </div>
+        </div>`;
+    });
+    taskBoard.innerHTML = resultHTML;
   }
-}
-
-function focusInput() {
-  userInput.value = "";
-}
-
-function reset() {
-  //리셋
-  randomNumber();
-  userInput.value = "";
-  gameOver = false;
-  playButton.disabled = false;
-  chanceCount.innerHTML = `남은 기회:${chances}`;
-  resultDisplay.innerHTML = "초기화 완료";
-  userValueList = [];
-  chances = 5;
-}
-
-randomNumber();
+});
