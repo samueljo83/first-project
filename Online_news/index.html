@@ -14,6 +14,10 @@
   </head>
   <body>
     <section class="container">
+      <div>
+        <input id="search-input" />
+        <button onclick="getNewsByKeyword()">검색</button>
+      </div>
       <div class="head-line">
         <svg viewBox="0 0 184 25" fill="#000" aria-hidden="true">
           <path
@@ -22,41 +26,15 @@
         </svg>
       </div>
       <div class="menus" id="menu-list">
-        <button>Sport</button>
-        <button>Tech</button>
-        <button>World</button>
-        <button>Finance</button>
-        <button>Politics</button>
         <button>Business</button>
-        <button>Economics</button>
         <button>Entertainment</button>
-        <button>Beauty</button>
-        <button>Travel</button>
-        <button>Music</button>
-        <button>Food</button>
+        <button>General</button>
+        <button>Health</button>
         <button>Science</button>
-        <button>Gaming</button>
-        <button>Energy</button>
+        <button>Sports</button>
+        <button>Technology</button>
       </div>
-      <section id="news-board">
-        <div class="row news">
-          <div class="col-lg-4">
-            <img
-              class="image-size"
-              src="https://static01.nyt.com/images/2024/02/21/multimedia/21mideast-crisis-briefing-carousel-ppp-01-bthc/21mideast-crisis-briefing-carousel-ppp-01-bthc-threeByTwoMediumAt2X.jpg?quality=75&auto=webp"
-            />
-          </div>
-          <div class="col-lg-8">
-            <h1>U.S. Defends Israel’s Policies Toward Palestinians</h1>
-            <p>
-              At the U.N.’s top court, a U.S. official argued that calls for
-              Israel to withdraw from occupied Palestinian territories ignored
-              “real security needs.”
-            </p>
-            <div>Written on 2024-2-21</div>
-          </div>
-        </div>
-      </section>
+      <section id="news-board"></section>
     </section>
     <script src="main.js"></script>
   </body>
