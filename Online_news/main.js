@@ -1,4 +1,4 @@
-const API_KEY = "2f3f7acad3a64cf0bdbadc0863012489";
+const API_KEY = "3bbdbfe25dbe4618965ddb4bbc0caf26";
 let newsList = [];
 const menus = document.querySelectorAll(".menus button");
 menus.forEach((menu) =>
@@ -27,7 +27,6 @@ const getNewsByCategory = async (event) => {
   newsList = data.articles;
   console.log("ddd", data);
   newsList = data.articles;
-  c;
   render();
 };
 

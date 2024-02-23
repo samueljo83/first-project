@@ -6,48 +6,71 @@ menus.forEach((menu) =>
 );
 
 const getLatestNews = async () => {
-  const url = new URL(
-    `https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`
-  );
-  const response = await fetch(url);
-  const data = await response.json();
-  newsList = data.articles;
-  render();
-  console.log("ddddd", newsList);
+  try {
+    const url = new URL(
+      `https://newsapi.org/v2/top-headlines?country=kr&apiKey=${API_KEY}`
+    );
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch news");
+    }
+    const data = await response.json();
+    newsList = data.articles;
+    render();
+    console.log("ddddd", newsList);
+  } catch (error) {
+    console.error("Error fetching latest news:", error);
+  }
 };
 
 const getNewsByCategory = async (event) => {
-  const category = event.target.textContent.toLowerCase();
-  console.log("category", category);
-  const url = new URL(
-    `https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`
-  );
-  const response = await fetch(url);
-  const data = await response.json();
-  newsList = data.articles;
-  console.log("ddd", data);
-  newsList = data.articles;
-  render();
+  try {
+    const category = event.target.textContent.toLowerCase();
+    console.log("category", category);
+    const url = new URL(
+      `https://newsapi.org/v2/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`
+    );
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch news by category");
+    }
+    const data = await response.json();
+    newsList = data.articles;
+    console.log("ddd", data);
+    render();
+  } catch (error) {
+    console.error("Error fetching news by category:", error);
+  }
 };
 
 const getNewsByKeyword = async () => {
-  const keyword = document.getElementById("search-input").value;
-  console.log("keyword", keyword);
-  const url = new URL(
-    `https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`
-  );
-  const response = await fetch(url);
-  const data = await response.json();
-  newsList = data.articles;
-  console.log("keyword-data", data);
-  newsList = data.articles;
-  render();
+  try {
+    const keyword = document.getElementById("search-input").value;
+    console.log("keyword", keyword);
+    const url = new URL(
+      `https://newsapi.org/v2/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`
+    );
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch news by keyword");
+    }
+    const data = await response.json();
+    newsList = data.articles;
+    console.log("keyword-data", data);
+    render();
+  } catch (error) {
+    console.error("Error fetching news by keyword:", error);
+  }
 };
 
 const render = () => {
-  const newsHtml = newsList
-    .map(
-      (news) => `<section id="news-board">
+  try {
+    if (!Array.isArray(newsList)) {
+      throw new Error("newsList is not an array");
+    }
+    const newsHtml = newsList
+      .map(
+        (news) => `<section id="news-board">
   <div class="row news">
     <div class="col-lg-4">
       <img
@@ -64,9 +87,12 @@ const render = () => {
     </div>
   </div>
 </section>`
-    )
-    .join("");
-  document.getElementById("news-board").innerHTML = newsHtml;
+      )
+      .join("");
+    document.getElementById("news-board").innerHTML = newsHtml;
+  } catch (error) {
+    console.error("Error rendering news:", error);
+  }
 };
 
 getLatestNews();
