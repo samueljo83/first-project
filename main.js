@@ -5,43 +5,45 @@ menus.forEach((menu) =>
   menu.addEventListener("click", (event) => getNewsByCategory(event))
 );
 
+let url = new URL(
+  `https://noona-times-v2.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`
+);
+const getNews = async () => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (response.status === 200) {
+      if (data.articles.length === 0) {
+        throw new Error("No result for this search");
+      }
+      newsList = data.articles;
+      render();
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (error) {
+    errorRender(error.message);
+  }
+};
+
 const getLatestNews = async () => {
-  const url = new URL(
-    `https://noona-times-v2.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`
-  );
-  const response = await fetch(url);
-  const data = await response.json();
-  newsList = data.articles;
-  render();
-  console.log("ddddd", newsList);
+  getNews();
 };
 
 const getNewsByCategory = async (event) => {
   const category = event.target.textContent.toLowerCase();
-  console.log("category", category);
   const url = new URL(
     `https://noona-times-v2.netlify.app/top-headlines?country=kr&category=${category}&apiKey=${API_KEY}`
   );
-  const response = await fetch(url);
-  const data = await response.json();
-  newsList = data.articles;
-  console.log("ddd", data);
-  newsList = data.articles;
-  render();
+  getNews();
 };
 
 const getNewsByKeyword = async () => {
   const keyword = document.getElementById("search-input").value;
-  console.log("keyword", keyword);
-  const url = new URL(
+  url = new URL(
     `https://noona-times-v2.netlify.app/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`
   );
-  const response = await fetch(url);
-  const data = await response.json();
-  newsList = data.articles;
-  console.log("keyword-data", data);
-  newsList = data.articles;
-  render();
+  getNews();
 };
 
 const render = () => {
@@ -67,6 +69,13 @@ const render = () => {
     )
     .join("");
   document.getElementById("news-board").innerHTML = newsHtml;
+};
+
+const errorRender = (errorM) => {
+  const errorHtml = `<div class="alert alert-danger" role="alert">
+ ${errorM}
+</div>`;
+  document.getElementById("news-board").innerHTML = errorHtml;
 };
 
 getLatestNews();
