@@ -7,7 +7,7 @@ menus.forEach((menu) =>
 
 const getLatestNews = async () => {
   const url = new URL(
-    `https://noona-times-v2.netlify.app//v2/top-headlines?country=kr&apiKey=${API_KEY}`
+    `https://noona-times-v2.netlify.app/top-headlines?country=kr&apiKey=${API_KEY}`
   );
   const response = await fetch(url);
   const data = await response.json();
@@ -34,7 +34,7 @@ const getNewsByKeyword = async () => {
   const keyword = document.getElementById("search-input").value;
   console.log("keyword", keyword);
   const url = new URL(
-    `https://noona-times-v2.netlify.app//top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`
+    `https://noona-times-v2.netlify.app/top-headlines?country=kr&q=${keyword}&apiKey=${API_KEY}`
   );
   const response = await fetch(url);
   const data = await response.json();
